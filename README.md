@@ -24,3 +24,7 @@ Unicode NFKC正規化した名前・設定全文のFNV形式の指紋から基�
 地球儀はCanvasによる正射投影、ドラッグ・自転切替・世界地図切替。軌道演出、現象発光、投入演出、地域カード、進行バー、観測レポートを搭載。音は初期OFF。非表示タブでは時間進行を停止。prefers-reduced-motionに対応。
 
 `npm run build` は公開用クライアントのみdistへ複製し、server/apiソースを静的配信しない。`npm test` はモデルとサーバー検証を実行。
+
+## 端末AI
+デフォルトはブラウザのWeb Workerで実行する多言語MiniLM NLI（`onnx-community/multilingual-MiniLMv2-L6-mnli-xnli-ONNX`、int8約107MB＋実行エンジン・トークナイザー）。Transformers.js 3.8.1をjsDelivrから取得。初回合計約130MB、端末メモリ・通信に依存。入力文は端末外に送らない。3組の意味分類（害/調和、広がり、現象モチーフ）の相対スコアを係数に変換する。端末AIの説明・イベントはテンプレートで、自由生成ではない。分類スコアは正答確率ではない。日本語を含む多言語に対応するが、細かな否定や長文に限界がある。公式モデルカード: https://huggingface.co/onnx-community/multilingual-MiniLMv2-L6-mnli-xnli-ONNX （MIT）。
+クラウドAIは切替可能だが、2026-10-26の本番確認でGatewayが利用枠/アカウント確認エラーを返したため、管理者側で有効化が必要。アプリはエラーを明示し、クラウドAI成功を偽装しない。
