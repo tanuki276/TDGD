@@ -5,3 +5,6 @@ test('365 days remain bounded for extreme settings and policies',()=>{for(const 
 test('deterministic, limited history and stops at 365',()=>{const s=simulate('balanced');assert.deepEqual(s,simulate('balanced'));assert.equal(s.history.length,120);assert.deepEqual(advance(s,config,'balanced'),s)});
 test('research increases adaptation; support protects stability',()=>{assert.ok(simulate('research').adaptation>simulate('observe').adaptation);assert.ok(simulate('support').stability>simulate('observe').stability)});
 test('unreleased world does not advance',()=>{assert.deepEqual(advance(initial(),config,'balanced'),initial())});
+import {interpret,population} from './model.js';
+test('all names including Unicode and empty strings derive bounded deterministic traits',()=>{for(const name of ['', '🦠🌍✨', '未知の標本𠮷', 'اسم جديد', 'Новое имя', '<script>alert(1)</script>', 'a'.repeat(500)]){const a=interpret(name,'設定🔮');assert.deepEqual(a,interpret(name,'設定🔮'));assert.ok(a.res>=10&&a.res<=90);assert.ok(a.impact>=10&&a.impact<=90);assert.ok(['dream','light','time'].includes(a.effect))}});
+test('descriptions affect traits and recognized themes are explained',()=>{assert.notDeepEqual(interpret('test',''),interpret('test','光の結晶'));assert.ok(interpret('test','光の結晶').matched.includes('光・結晶'));assert.equal(population,8126)});
