@@ -1,1 +1,1 @@
-{"name":"vilsshumi","version":"1.0.0","private":true,"type":"module","scripts":{"test":"node --test model.test.js"}}
+{"name": "vilsshumi", "version": "1.0.0", "private": true, "type": "module", "scripts": {"build": "node build.js", "test": "node --test model.test.js server.test.js"}}
