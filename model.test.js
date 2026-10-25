@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {initial,advance} from './model.js';
+const config={res:55,impact:40,effect:'dream'};
+function simulate(policy,c=config){let s=initial();s.started=true;s.levels[0]=1.5;for(let i=0;i<365;i++){s=advance(s,c,policy);assert.ok(s.levels.every(n=>Number.isFinite(n)&&n>=0&&n<=100));assert.ok(s.economy>=0&&s.economy<=120);assert.ok(s.stability>=0&&s.stability<=100);assert.ok(s.adaptation>=0&&s.adaptation<=100)}return s}
+test('365 days remain bounded for extreme settings and policies',()=>{for(const p of ['balanced','research','support','observe'])for(const res of [10,90])for(const impact of [10,90])simulate(p,{res,impact,effect:'time'})});
+test('deterministic, limited history and stops at 365',()=>{const s=simulate('balanced');assert.deepEqual(s,simulate('balanced'));assert.equal(s.history.length,120);assert.deepEqual(advance(s,config,'balanced'),s)});
+test('research increases adaptation; support protects stability',()=>{assert.ok(simulate('research').adaptation>simulate('observe').adaptation);assert.ok(simulate('support').stability>simulate('observe').stability)});
+test('unreleased world does not advance',()=>{assert.deepEqual(advance(initial(),config,'balanced'),initial())});
