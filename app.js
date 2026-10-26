@@ -31,6 +31,6 @@ try{let result;if($('ai-engine').value==='local'){result=await localAnalyze(inpu
 $('ai-style').onclick=()=>{if(matchingAI()&&!state.started){$('shape').value=ai.shape;$('color').value=ai.color;specimen();toast('AIの外観提案を反映しました')}};
 $('report').onclick=()=>{$('report-title').textContent=(config?.name||'標本')+' / DAY '+state.day;const lines=[config?.summary||'簡易算出・手動設定による観測。',`最大影響人口 ${(peak/10000).toFixed(2)}億人 / 現在 ${(state.levels.reduce((s,v,i)=>s+v*regions[i].pop,0)/10000).toFixed(2)}億人`,`経済指数 ${state.economy.toFixed(1)} / 社会安定度 ${state.stability.toFixed(1)}% / 適応 ${state.adaptation.toFixed(1)}%`,state.adaptation>70?'世界は現象への適応を進めています。':state.stability<60?'社会は大きな変化の中にあります。':'世界は変化を観測し、対応を探っています。','このレポートは創作シミュレーションの結果です。'];$('report-body').replaceChildren(...lines.map(line=>{const p=document.createElement('p');p.textContent=line;return p}));$('report-modal').showModal()};$('report-close').onclick=()=>$('report-modal').close();
 
-$('ai-engine').onchange=()=>{$('engine-note').textContent=$('ai-engine').value==='local'?'初回に約300MBを取得。文章は端末内で推論します。数分かかる場合があります。':'名前・設定を外部AIに送信します。Vercel AI Gatewayの利用枠・アカウント確認が必要です。';};
+$('ai-engine').onchange=()=>{$('engine-note').textContent=$('ai-engine').value==='local'?'初回に約370MBを取得。文章は端末内で推論します。数分かかる場合があります。':'名前・設定を外部AIに送信します。Vercel AI Gatewayの利用枠・アカウント確認が必要です。';};
 
 $('cancel-ai').onclick=()=>{cancelLocalAnalysis();analysisController?.abort()};
